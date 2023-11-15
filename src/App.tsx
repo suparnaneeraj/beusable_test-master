@@ -12,21 +12,27 @@ function calculateOccupancy(premiumRooms: any, economyRooms: any) {
 
   for (const guest of sortedGuests) {
     if (guest >= 100) {
-      continue;
+        if (premiumRooms > 0) {
+            premiumOccupancy++;
+            premiumRevenue += guest;
+            premiumRooms--;
+        }
+    }
+    else{
+        if (premiumRooms > 0) {
+            premiumOccupancy++;
+            premiumRevenue += guest;
+            premiumRooms--;
+        }
+        else if (economyRooms > 0) {
+            economyOccupancy++;
+             economyRevenue += guest;
+            economyRooms--;
+             }
+        }
+
     }
 
-    if (premiumRooms > 0) {
-      premiumOccupancy++;
-      premiumRevenue += guest;
-      premiumRooms--;
-    } else if (economyRooms > 0) {
-      economyOccupancy++;
-      economyRevenue += guest;
-      economyRooms--;
-    } else {
-      break;
-    }
-  }
 
   return {
     premiumOccupancy,
@@ -78,10 +84,10 @@ function App() {
         {occupancy && (
           <div>
             <p>
-              Free Premium rooms: {premiumRooms - occupancy.premiumOccupancy}
+              Free Premium rooms: {premiumRooms}
             </p>
             <p>
-              Free Economy rooms: {economyRooms - occupancy.economyOccupancy}
+              Free Economy rooms: {economyRooms}
             </p>
             <p>
               Usage Premium: {occupancy.premiumOccupancy} (EUR{" "}
